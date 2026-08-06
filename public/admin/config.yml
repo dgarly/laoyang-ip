@@ -1,0 +1,59 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "articles"
+    label: "谋略锋刃（文章）"
+    folder: "src/content/articles"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "描述", name: "description", widget: "text" }
+      - { label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "分类", name: "category", widget: "select", options: ["行业分析", "战略思考", "趋势研判", "案例拆解", "IP方法论"] }
+      - { label: "标签", name: "tags", widget: "list", default: [] }
+      - { label: "阅读时长", name: "readingTime", widget: "string", default: "5分钟" }
+      - { label: "封面图", name: "image", widget: "image", required: false }
+      - { label: "草稿", name: "draft", widget: "boolean", default: false }
+      - { label: "精选置顶", name: "featured", widget: "boolean", default: false }
+      - { label: "排序", name: "order", widget: "number", default: 99, value_type: "int" }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "cases"
+    label: "战例复盘（案例）"
+    folder: "src/content/cases"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "案例标题", name: "title", widget: "string" }
+      - { label: "所属行业", name: "industry", widget: "string" }
+      - { label: "图标", name: "icon", widget: "string", default: "🏢" }
+      - { label: "战前形势", name: "situation", widget: "text" }
+      - { label: "战略部署", name: "strategy", widget: "text" }
+      - { label: "战果（数字）", name: "result", widget: "string" }
+      - { label: "战果说明", name: "resultLabel", widget: "string" }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "精选", name: "featured", widget: "boolean", default: false }
+      - { label: "详细复盘", name: "body", widget: "markdown", required: false }
+
+  - name: "videos"
+    label: "演武厅（视频）"
+    folder: "src/content/videos"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "视频标题", name: "title", widget: "string" }
+      - { label: "分类", name: "category", widget: "select", options: ["布道", "拆招", "论剑", "演练"] }
+      - { label: "视频链接", name: "url", widget: "string", required: false }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "精选", name: "featured", widget: "boolean", default: false }
+      - { label: "简介", name: "body", widget: "markdown", required: false }
