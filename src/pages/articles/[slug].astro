@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map(article => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+---
+
+<BaseLayout>
+  <article class="article-page" style="background:var(--ivory-cool);padding:160px 0 120px;">
+    <div class="section-inner" style="max-width:800px;margin:0 auto;">
+      <div style="margin-bottom:16px;">
+        <span class="insight-card-tag">{article.data.category}</span>
+        <span style="font-size:12px;color:var(--text-muted);margin-left:12px;">{article.data.date.toISOString().split('T')[0]}</span>
+        <span style="font-size:12px;color:var(--text-muted);margin-left:12px;">{article.data.readingTime}</span>
+      </div>
+      <h1 style="font-family:var(--font-serif);font-size:clamp(28px,4.5vw,48px);font-weight:900;line-height:1.25;margin-bottom:16px;">{article.data.title}</h1>
+      <p style="font-size:19px;color:var(--text-medium);line-height:1.8;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border-card);">{article.data.description}</p>
+      <div class="article-content" style="font-size:17px;line-height:2;color:var(--text-dark);">
+        <Content />
+      </div>
+      <div style="margin-top:64px;padding-top:32px;border-top:1px solid var(--border-card);text-align:center;">
+        <a href="/" style="color:var(--gold-deep);text-decoration:none;font-weight:600;">← 返回作战室</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-content h2 {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 800;
+    margin: 48px 0 20px;
+    color: var(--text-dark);
+  }
+  .article-content h3 {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 36px 0 16px;
+  }
+  .article-content p {
+    margin-bottom: 20px;
+  }
+  .article-content ul, .article-content ol {
+    margin: 16px 0 24px 24px;
+  }
+  .article-content li {
+    margin-bottom: 8px;
+  }
+  .article-content strong {
+    color: var(--text-dark);
+  }
+  .article-content blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 28px 0;
+    background: rgba(196,155,76,0.04);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--text-medium);
+  }
+</style>
